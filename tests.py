@@ -1,5 +1,6 @@
 import day1
 import day2
+import day3
 import unittest
 from parameterized import parameterized
 
@@ -72,3 +73,45 @@ class Day2(unittest.TestCase):
     ])
     def test_sum_of_game_powers(self, _, data, expected):
         self.assertEqual(expected, day2.sum_of_game_powers(data))
+
+
+class Day3(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             "467..114...",     # added . at the end of every row to simplify the alg
+             "...*.......",
+             "..35..633..",
+             "......#....",
+             "617*.......",
+             ".....+.58..",
+             "..592......",
+             "......755..",
+             "...$.*.....",
+             ".664.598...",
+         ], 4361),
+        ("day_3a",
+         day3.parse_day3_a(), 527446)
+    ])
+    def test_sum_of_valid_game_id(self, _, data, expected):
+        self.assertEqual(expected, day3.sum_of_numbers(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             "467..114...",     # added . at the end of every row to simplify the alg
+             "...*.......",
+             "..35..633..",
+             "......#....",
+             "617*.......",
+             ".....+.58..",
+             "..592......",
+             "......755..",
+             "...$.*.....",
+             ".664.598...",
+         ], 467835),
+        ("day_3a",
+         day3.parse_day3_a(), 73201705)
+    ])
+    def test_sum_of_valid_game_id(self, _, data, expected):
+        self.assertEqual(expected, day3.sum_of_gear_ratios(data))
