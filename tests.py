@@ -1,6 +1,7 @@
 import day1
 import day2
 import day3
+import day4
 import unittest
 from parameterized import parameterized
 
@@ -115,3 +116,37 @@ class Day3(unittest.TestCase):
     ])
     def test_sum_of_valid_game_id(self, _, data, expected):
         self.assertEqual(expected, day3.sum_of_gear_ratios(data))
+
+
+class Day4(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             ((41, 48, 83, 86, 17), (83, 86,  6, 31, 17,  9, 48, 53)),
+             ((13, 32, 20, 16, 61), (61, 30, 68, 82, 17, 32, 24, 19)),
+             ((1, 21, 53, 59, 44), (69, 82, 63, 72, 16, 21, 14,  1)),
+             ((41, 92, 73, 84, 69), (59, 84, 76, 51, 58,  5, 54, 83)),
+             ((87, 83, 26, 28, 32), (88, 30, 70, 12, 93, 22, 82, 36)),
+             ((31, 18, 13, 56, 72), (74, 77, 10, 23, 35, 67, 36, 11))
+         ], 13),
+        ("day_4a",
+         day4.parse_day4_a(), 21105)
+    ])
+    def test_count_total_points(self, _, data, expected):
+        self.assertEqual(expected, day4.count_total_points(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             ((41, 48, 83, 86, 17), (83, 86,  6, 31, 17,  9, 48, 53)),
+             ((13, 32, 20, 16, 61), (61, 30, 68, 82, 17, 32, 24, 19)),
+             ((1, 21, 53, 59, 44), (69, 82, 63, 72, 16, 21, 14,  1)),
+             ((41, 92, 73, 84, 69), (59, 84, 76, 51, 58,  5, 54, 83)),
+             ((87, 83, 26, 28, 32), (88, 30, 70, 12, 93, 22, 82, 36)),
+             ((31, 18, 13, 56, 72), (74, 77, 10, 23, 35, 67, 36, 11))
+         ], 30),
+        # ("day_4b",
+        #  day4.parse_day4_a(), 21105)
+    ])
+    def test_count_total_cards(self, _, data, expected):
+        self.assertEqual(expected, day4.count_total_cards(data))
