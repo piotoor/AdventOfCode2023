@@ -3,6 +3,9 @@ import day2
 import day3
 import day4
 
+import sys
+sys.setrecursionlimit(150000)
+
 if __name__ == '__main__':
     # day1.day1_a()
     # day1.day1_b()

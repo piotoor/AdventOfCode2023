@@ -4,6 +4,8 @@ import day3
 import day4
 import unittest
 from parameterized import parameterized
+import sys
+sys.setrecursionlimit(150000)
 
 
 class Day1(unittest.TestCase):
@@ -145,8 +147,8 @@ class Day4(unittest.TestCase):
              ((87, 83, 26, 28, 32), (88, 30, 70, 12, 93, 22, 82, 36)),
              ((31, 18, 13, 56, 72), (74, 77, 10, 23, 35, 67, 36, 11))
          ], 30),
-        # ("day_4b",
-        #  day4.parse_day4_a(), 21105)
+        ("day_4b",
+         day4.parse_day4_a(), 5329815)
     ])
     def test_count_total_cards(self, _, data, expected):
-        self.assertEqual(expected, day4.count_total_cards(data))
+        self.assertEqual(expected, day4.count_total_cards_wrapper(data))
