@@ -1,6 +1,3 @@
-import re
-
-
 def parse_day4_a():
     with open("day4.txt", "r") as f:
         data = list(f.read().splitlines())
