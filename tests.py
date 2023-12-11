@@ -3,6 +3,7 @@ import day2
 import day3
 import day4
 import day5
+import day6
 import unittest
 from parameterized import parameterized
 import sys
@@ -263,3 +264,27 @@ class Day5(unittest.TestCase):
         a = (30, 60)
         b = (10, 97)
         self.assertEqual(expected, day5.ranges_intersection(a, b))
+
+
+class Day6(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             (7, 15, 30), (9, 40, 200)
+         ], 288),
+        ("day6_a",
+         day6.parse_day6_a(), 1710720)
+    ])
+    def test_calc_num_of_ways_of_beating_the_record(self, _, data, expected):
+        self.assertEqual(expected, day6.calc_num_of_ways_of_beating_the_record(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             (7, 15, 30), (9, 40, 200)
+         ], 71503),
+        # ("day6_b",
+        #  day6.parse_day6_a(), 806029445)
+    ])
+    def test_calc_num_of_ways_of_beating_the_record_v2(self, _, data, expected):
+        self.assertEqual(expected, day6.calc_num_of_ways_of_beating_the_record_v2(data))
