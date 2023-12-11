@@ -58,7 +58,7 @@ def day5_a():
 
 def merge_ranges(ranges):
     idx = 0
-
+    ranges = list(map(list, ranges))
     ranges.sort()
     for i in range(1, len(ranges)):
         if ranges[idx][1] >= ranges[i][0]:
@@ -67,14 +67,48 @@ def merge_ranges(ranges):
             idx += 1
             ranges[idx] = ranges[i]
 
+    ranges = tuple(map(tuple, ranges))
     return ranges[:idx + 1]
 
 
-def vi(map_list, key):
-    for m in map_list:
-        if m[0] <= key < m[0] + m[2]:
-            return m[1] + key - m[0]
-    return key
+def convert_row_to_intervals(mp):
+    ans = []
+
+    for row in mp:
+        dst, src, num = row
+        ans.append(((src, src + num), dst - src))
+
+    return tuple(ans)
+
+
+def convert_seeds_to_intervals(seeds):
+    # ans = []
+    #
+    # for i in range(0, len(seeds), 2):
+    #     ans.append((seeds[i], seeds[i] + seeds[i + 1]))
+    #
+    # return ans
+
+    return set((seeds[i], seeds[i] + seeds[i + 1]) for i in range(0, len(seeds), 2))
+
+
+def ranges_intersection(a, b):          # returns intersection, rest
+    inters = ()
+    rest_l = ()
+    rest_r = ()
+
+    if not (b[0] > a[1] or b[1] < a[0]):
+        inters = (max(a[0], b[0]), min(a[1], b[1]))
+        if inters[0] == inters[1]:
+            inters = ()
+        if b[0] < a[0]:
+            rest_l = (b[0], a[0])
+        if b[1] > a[1]:
+            rest_r = (a[1], b[1])
+    else:
+        rest_l = b
+
+    return inters, rest_l, rest_r
 
 
 def find_lowest_location_number_ranges(data):
@@ -82,28 +116,32 @@ def find_lowest_location_number_ranges(data):
     # [dst, src, len]
     seeds, seed_to_soil, soil_to_fert, fert_to_wat, wat_to_light, light_to_temp, temp_to_humid, humid_to_loc = data
 
-    location_values = []
-    seeds_intervals = []
-    for i in range(0, len(seeds), 2):
-        seeds_intervals.append([seeds[i], seeds[i] + seeds[i + 1]])
+    curr_ranges = set(merge_ranges(convert_seeds_to_intervals(seeds)))
+    converted_maps = []
+    for x in data[1:]:
+        curr_map = convert_row_to_intervals(x)
+        converted_maps.append(curr_map)
 
-    # seeds_intervals = [[6, 8], [1, 9], [2, 4], [4, 7]]
-    print(seeds_intervals)
-    seeds_intervals = merge_ranges(seeds_intervals)
-    print()
-    print(seeds_intervals)
-    ans = sys.maxsize
-    for interval in seeds_intervals:
-        print("processing interval {}".format(interval))
-        for x in range(interval[0], interval[1]):
-            if x % 100000 == 0:
-                print("processing seed {}".format(x))
-            ans = min(ans, v(humid_to_loc, v(temp_to_humid, v(light_to_temp, v(wat_to_light, v(fert_to_wat,
-                                                                                                       v(soil_to_fert,
-                                                                                                         v(seed_to_soil,
-                                                                                                           x))))))))
+    for m in converted_maps:
+        inters = set()
+        for r in m:
+            rests = set()
+            for lr in curr_ranges:
+                inter, rest_l, rest_r = ranges_intersection(r[0], lr)
+                if len(inter) > 0:
+                    inters.add((inter[0] + r[1], inter[1] + r[1]))
+                if len(rest_l) > 0:
+                    rests.add(rest_l)
+                if len(rest_r) > 0:
+                    rests.add(rest_r)
 
-    return ans
+            curr_ranges = rests.copy()
+            curr_ranges = set(merge_ranges(curr_ranges))
+
+        curr_ranges |= inters
+        curr_ranges = set(merge_ranges(curr_ranges))
+
+    return min(curr_ranges)[0]
 
 
 def day5_b():

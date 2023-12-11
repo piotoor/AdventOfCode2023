@@ -236,8 +236,30 @@ class Day5(unittest.TestCase):
                 [56, 93, 4]
             ],
          ], 46),
-        # ("day5_b",
-        #  day5.parse_day5_a(), 806029445)
+        ("day5_b",
+         day5.parse_day5_a(), 59370572)
     ])
     def test_find_lowest_location_number_ranges(self, _, data, expected):
         self.assertEqual(expected, day5.find_lowest_location_number_ranges(data))
+
+    def test_ranges_intersection(self):
+        expected = (45, 55), (), ()
+        a = (30, 60)
+        b = (45, 55)
+        self.assertEqual(expected, day5.ranges_intersection(a, b))
+        expected = (45, 60), (), (60, 97)
+        a = (30, 60)
+        b = (45, 97)
+        self.assertEqual(expected, day5.ranges_intersection(a, b))
+        expected = (), (70, 97), ()
+        a = (30, 60)
+        b = (70, 97)
+        self.assertEqual(expected, day5.ranges_intersection(a, b))
+        expected = (), (10, 27), ()
+        a = (30, 60)
+        b = (10, 27)
+        self.assertEqual(expected, day5.ranges_intersection(a, b))
+        expected = (30, 60), (10, 30), (60, 97)
+        a = (30, 60)
+        b = (10, 97)
+        self.assertEqual(expected, day5.ranges_intersection(a, b))
