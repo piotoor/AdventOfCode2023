@@ -5,6 +5,7 @@ import day4
 import day5
 import day6
 import day7
+import day8
 import unittest
 from parameterized import parameterized
 import sys
@@ -321,3 +322,50 @@ class Day7(unittest.TestCase):
     ])
     def test_calc_num_of_ways_of_beating_the_record_with_jokers(self, _, data, expected):
         self.assertEqual(expected, day7.calc_total_winnings_with_jokers(data))
+
+
+class Day8(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+            "RL",
+            ("AAA", "BBB", "CCC"),
+            ("BBB", "DDD", "EEE"),
+            ("CCC", "ZZZ", "GGG"),
+            ("DDD", "DDD", "DDD"),
+            ("EEE", "EEE", "EEE"),
+            ("GGG", "GGG", "GGG"),
+            ("ZZZ", "ZZZ", "ZZZ")
+         ], 2),
+        ("example 2",
+         [
+            "LLR",
+            ("AAA", "BBB", "BBB"),
+            ("BBB", "AAA", "ZZZ"),
+            ("ZZZ", "ZZZ", "ZZZ")
+         ], 6),
+        ("day8_a",
+         day8.parse_day8_a(), 20777)
+    ])
+    def test_calc_num_of_steps(self, _, data, expected):
+        self.assertEqual(expected, day8.calc_num_of_steps(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+            "LR",
+            ("11A", "11B", "XXX"),
+            ("11B", "XXX", "11Z"),
+            ("11Z", "11B", "XXX"),
+            ("22A", "22B", "XXX"),
+            ("22B", "22C", "22C"),
+            ("22C", "22Z", "22Z"),
+            ("22Z", "22B", "22B"),
+            ("XXX", "XXX", "XXX")
+         ], 6),
+
+        ("day8_a",
+         day8.parse_day8_a(), 13289612809129)
+    ])
+    def test_calc_num_of_steps_simultaneous(self, _, data, expected):
+        self.assertEqual(expected, day8.calc_num_of_steps_simultaneous(data))
