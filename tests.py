@@ -4,6 +4,7 @@ import day3
 import day4
 import day5
 import day6
+import day7
 import unittest
 from parameterized import parameterized
 import sys
@@ -288,3 +289,35 @@ class Day6(unittest.TestCase):
     ])
     def test_calc_num_of_ways_of_beating_the_record_v2(self, _, data, expected):
         self.assertEqual(expected, day6.calc_num_of_ways_of_beating_the_record_v2(data))
+
+
+class Day7(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             ("32T3K", 765),
+             ("T55J5", 684),
+             ("KK677", 28),
+             ("KTJJT", 220),
+             ("QQQJA", 483)
+         ], 6440),
+        ("day7_a",
+         day7.parse_day7_a(), 251058093)
+    ])
+    def test_calc_num_of_ways_of_beating_the_record(self, _, data, expected):
+        self.assertEqual(expected, day7.calc_total_winnings(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             ("32T3K", 765),
+             ("T55J5", 684),
+             ("KK677", 28),
+             ("KTJJT", 220),
+             ("QQQJA", 483)
+         ], 5905),
+        ("day7_b",
+         day7.parse_day7_a(), 249781879)
+    ])
+    def test_calc_num_of_ways_of_beating_the_record_with_jokers(self, _, data, expected):
+        self.assertEqual(expected, day7.calc_total_winnings_with_jokers(data))
