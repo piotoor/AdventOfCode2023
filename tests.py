@@ -6,6 +6,7 @@ import day5
 import day6
 import day7
 import day8
+import day9
 import unittest
 from parameterized import parameterized
 import sys
@@ -369,3 +370,31 @@ class Day8(unittest.TestCase):
     ])
     def test_calc_num_of_steps_simultaneous(self, _, data, expected):
         self.assertEqual(expected, day8.calc_num_of_steps_simultaneous(data))
+
+
+class Day9(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             [0, 3, 6, 9, 12, 15],
+             [1, 3, 6, 10, 15, 21],
+             [10, 13, 16, 21, 30, 45]
+         ], 114),
+        ("day9_a",
+         day9.parse_day9_a(), 1762065988)
+    ])
+    def test_calc_sum_of_extrapolated_values(self, _, data, expected):
+        self.assertEqual(expected, day9.calc_sum_of_extrapolated_values(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             [0, 3, 6, 9, 12, 15],
+             [1, 3, 6, 10, 15, 21],
+             [10, 13, 16, 21, 30, 45]
+         ], 2),
+        ("day9_b",
+         day9.parse_day9_a(), 1066)
+    ])
+    def test_calc_sum_of_extrapolated_values_beginning(self, _, data, expected):
+        self.assertEqual(expected, day9.calc_sum_of_extrapolated_values_beginning(data))
