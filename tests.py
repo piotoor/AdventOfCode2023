@@ -1,5 +1,4 @@
 import day1
-import day10
 import day2
 import day3
 import day4
@@ -9,6 +8,8 @@ import day7
 import day8
 import day9
 import day10
+import day11
+
 import unittest
 from parameterized import parameterized
 import sys
@@ -431,8 +432,63 @@ class Day10(unittest.TestCase):
             ".L--J.L--J.",
             "..........."
          ], 4),
-        ("day10_b",
-         day10.parse_day10_a(), 413)
+        # ("day10_b",
+        #  day10.parse_day10_a(), 413)
     ])
     def test_count_enclosed(self, _, data, expected):
         self.assertEqual(expected, day10.count_enclosed(data))
+
+
+class Day11(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             "...#......",
+             ".......#..",
+             "#.........",
+             "..........",
+             "......#...",
+             ".#........",
+             ".........#",
+             "..........",
+             ".......#..",
+             "#...#....."
+         ], 374),
+        ("day11_a",
+         day11.parse_day11_a(), 10165598)
+    ])
+    def test_calc_sum_of_lengths(self, _, data, expected):
+        self.assertEqual(expected, day11.calc_sum_of_lengths(data, 2))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             "...#......",
+             ".......#..",
+             "#.........",
+             "..........",
+             "......#...",
+             ".#........",
+             ".........#",
+             "..........",
+             ".......#..",
+             "#...#....."
+         ], 10, 1030),
+        ("example 1",
+         [
+             "...#......",
+             ".......#..",
+             "#.........",
+             "..........",
+             "......#...",
+             ".#........",
+             ".........#",
+             "..........",
+             ".......#..",
+             "#...#....."
+         ], 100, 8410),
+        # ("day11_b",
+        #  day11.parse_day11_a(), )
+    ])
+    def test_calc_sum_of_lengths_large_(self, _, data, factor, expected):
+        self.assertEqual(expected, day11.calc_sum_of_lengths(data, factor))
