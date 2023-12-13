@@ -1,4 +1,5 @@
 import day1
+import day10
 import day2
 import day3
 import day4
@@ -7,6 +8,7 @@ import day6
 import day7
 import day8
 import day9
+import day10
 import unittest
 from parameterized import parameterized
 import sys
@@ -398,3 +400,20 @@ class Day9(unittest.TestCase):
     ])
     def test_calc_sum_of_extrapolated_values_beginning(self, _, data, expected):
         self.assertEqual(expected, day9.calc_sum_of_extrapolated_values_beginning(data))
+
+
+class Day10(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+            ".....",
+            ".S-7.",
+            ".|.|.",
+            ".L-J.",
+            "....."
+         ], 4),
+        ("day10_a",
+         day10.parse_day10_a(), 6968)
+    ])
+    def test_calc_num_of_steps(self, _, data, expected):
+        self.assertEqual(expected, day10.calc_num_of_steps(data))
