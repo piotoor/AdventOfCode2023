@@ -487,8 +487,8 @@ class Day11(unittest.TestCase):
              ".......#..",
              "#...#....."
          ], 100, 8410),
-        # ("day11_b",
-        #  day11.parse_day11_a(), )
+        ("day11_b",
+         day11.parse_day11_a(), 1000000, 678728808158)
     ])
     def test_calc_sum_of_lengths_large_(self, _, data, factor, expected):
         self.assertEqual(expected, day11.calc_sum_of_lengths(data, factor))
