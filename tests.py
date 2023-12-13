@@ -9,6 +9,7 @@ import day8
 import day9
 import day10
 import day11
+import day12
 
 import unittest
 from parameterized import parameterized
@@ -490,5 +491,23 @@ class Day11(unittest.TestCase):
         ("day11_b",
          day11.parse_day11_a(), 1000000, 678728808158)
     ])
-    def test_calc_sum_of_lengths_large_(self, _, data, factor, expected):
+    def test_calc_sum_of_lengths_large(self, _, data, factor, expected):
         self.assertEqual(expected, day11.calc_sum_of_lengths(data, factor))
+
+
+class Day12(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             ["???.###", (1, 1, 3)],
+             [".??..??...?##.", (1, 1, 3)],
+             ["?#?#?#?#?#?#?#?", (1, 3, 1, 6)],
+             ["????.#...#...", (4, 1, 1)],
+             ["????.######..#####.", (1, 6, 5)],
+             ["?###????????", (3, 2, 1)]
+         ], 21),
+        # ("day12_a",
+        #  day12.parse_day12_a(), )
+    ])
+    def test_calc_sum_of_possible_arrangements(self, _, data, expected):
+        self.assertEqual(expected, day12.calc_sum_of_possible_arrangements(data))
