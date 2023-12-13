@@ -417,3 +417,22 @@ class Day10(unittest.TestCase):
     ])
     def test_calc_num_of_steps(self, _, data, expected):
         self.assertEqual(expected, day10.calc_num_of_steps(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+            "...........",
+            ".S-------7.",
+            ".|F-----7|.",
+            ".||.....||.",
+            ".||.....||.",
+            ".|L-7.F-J|.",
+            ".|..|.|..|.",
+            ".L--J.L--J.",
+            "..........."
+         ], 4),
+        ("day10_b",
+         day10.parse_day10_a(), 413)
+    ])
+    def test_count_enclosed(self, _, data, expected):
+        self.assertEqual(expected, day10.count_enclosed(data))
