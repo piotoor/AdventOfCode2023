@@ -506,8 +506,8 @@ class Day12(unittest.TestCase):
              ["????.######..#####.", (1, 6, 5)],
              ["?###????????", (3, 2, 1)]
          ], 21),
-        # ("day12_a",
-        #  day12.parse_day12_a(), )
+        ("day12_a",
+         day12.parse_day12_a(), 6871)
     ])
     def test_calc_sum_of_possible_arrangements(self, _, data, expected):
         self.assertEqual(expected, day12.calc_sum_of_possible_arrangements(data))
