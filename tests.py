@@ -506,8 +506,35 @@ class Day12(unittest.TestCase):
              ["????.######..#####.", (1, 6, 5)],
              ["?###????????", (3, 2, 1)]
          ], 21),
+        ("example 2",
+         [
+             ["???.###", (1, 1, 3)],
+             [".??..??...?##.", (1, 1, 3)],
+             ["?#?#?#?#?#?#?#?", (1, 3, 1, 6)],
+             ["????.#...#...", (4, 1, 1)],
+             ["????.######..#####.", (1, 6, 5)],
+             ["?###????????", (3, 2, 1)],
+             ["??...??...??", (1, 1, 2)],
+             ["???...??...??", (1, 1, 2)]
+         ], 33),
         ("day12_a",
          day12.parse_day12_a(), 6871)
     ])
     def test_calc_sum_of_possible_arrangements(self, _, data, expected):
         self.assertEqual(expected, day12.calc_sum_of_possible_arrangements(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             ["???.###", (1, 1, 3)],
+             [".??..??...?##.", (1, 1, 3)],
+             ["?#?#?#?#?#?#?#?", (1, 3, 1, 6)],
+             ["????.#...#...", (4, 1, 1)],
+             ["????.######..#####.", (1, 6, 5)],
+             ["?###????????", (3, 2, 1)],
+         ], 525152),
+        ("day12_b",
+         day12.parse_day12_a(), 2043098029844)
+    ])
+    def test_calc_sum_of_possible_arrangements_extended(self, _, data, expected):
+        self.assertEqual(expected, day12.calc_sum_of_possible_arrangements_extended(data))
