@@ -565,3 +565,27 @@ class Day18(unittest.TestCase):
     ])
     def test_calc_capacity(self, _, data, expected):
         self.assertEqual(expected, day18.calc_capacity(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             ("R", 461937),
+             ("D", 56407),
+             ("R", 356671),
+             ("D", 863240),
+             ("R", 367720),
+             ("D", 266681),
+             ("L", 577262),
+             ("U", 829975),
+             ("L", 112010),
+             ("D", 829975),
+             ("L", 491645),
+             ("U", 686074),
+             ("L", 5411),
+             ("U", 500254)
+         ], 952408144115),
+        ("day18_b",
+         day18.parse_day18_b(), 131431655002266)
+    ])
+    def test_calc_capacity_v2(self, _, data, expected):
+        self.assertEqual(expected, day18.calc_capacity_v2(data))

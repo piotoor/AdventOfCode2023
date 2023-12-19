@@ -1,6 +1,6 @@
-from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 import numpy as np
+
 
 def parse_day18_a():
     with open("day18.txt", "r") as f:
@@ -13,10 +13,6 @@ def parse_day18_a():
         # print(parsed[-1])
 
     return parsed
-
-
-def area(path):
-    return abs(sum(path[i][0] * (path[i + 1][1] - path[i + 1][0] * path[i][1]) for i in range(0, len(path) - 1))) / 2.0
 
 
 def print_(path):
@@ -34,31 +30,9 @@ def calc_capacity(data):
     x = 0
     y = 0
     path = [(x, y)]
-    ans = 0
     per = 0
     for row in data:
         d, s, c = row
-        # if d == "U":
-        #     while s > 0:
-        #         y += 1
-        #         path.append((x, y))
-        #         s -= 1
-        # elif d == "R":
-        #     while s > 0:
-        #         x += 1
-        #         path.append((x, y))
-        #         s -= 1
-        # elif d == "D":
-        #     while s > 0:
-        #         y -= 1
-        #         path.append((x, y))
-        #         s -= 1
-        # else:
-        #     while s > 0:
-        #         x -= 1
-        #         path.append((x, y))
-        #         s -= 1
-
         if d == "U":
             y += s
         elif d == "R":
@@ -79,3 +53,61 @@ def calc_capacity(data):
 def day18_a():
     data = parse_day18_a()
     print("day18_a = {}".format(calc_capacity(data)))
+
+
+def parse_day18_b():
+    with open("day18.txt", "r") as f:
+        data = list(f.read().splitlines())
+
+    parsed = []
+    for x in data:
+        direction, steps, color = x.split(" ")
+        new_steps = int(color[2:7], 16)
+        new_dir_int = color[7:8]
+
+        new_dir = ""
+        if new_dir_int == '0':
+            new_dir = "R"
+        elif new_dir_int == '1':
+            new_dir = "D"
+        elif new_dir_int == '2':
+            new_dir = "L"
+        else:
+            new_dir = "U"
+
+        parsed.append((new_dir, new_steps))
+
+    # for x in parsed:
+    #     print(x)
+
+    return parsed
+
+
+def calc_capacity_v2(data):
+    x = 0
+    y = 0
+    path = [(x, y)]
+    per = 0
+    for row in data:
+        d, s = row
+        if d == "U":
+            y += s
+        elif d == "R":
+            x += s
+        elif d == "D":
+            y -= s
+        else:
+            x -= s
+        per += s
+        path.append((x, y))
+
+    # print(path)
+
+    # print_(path)
+    polygon = Polygon(path)
+    return int(polygon.area + per // 2 + 1)
+
+
+def day18_b():
+    data = parse_day18_b()
+    print("day18_b = {}".format(calc_capacity_v2(data)))
