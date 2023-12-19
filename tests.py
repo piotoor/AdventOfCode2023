@@ -628,10 +628,39 @@ class Day13(unittest.TestCase):
                  "#..##..##"
              ]
          ], 8),
-        # ("day13_a",
-        #  day13.parse_day13_a(), )
+        ("day13_a",
+         day13.parse_day13_a(), 35360)
     ])
     def test_sum_of_notes(self, _, data, expected):
         self.assertEqual(expected, day13.sum_of_notes(data))
 
+    @parameterized.expand([
+        ("example 1",
+         [
+             [
+                 "#.##..##.",
+                 "..#.##.#.",
+                 "##......#",
+                 "##......#",
+                 "..#.##.#.",
+                 "..##..##.",
+                 "#.#.##.#."
+             ],
+
+             [
+                 "#...##..#",
+                 "#....#..#",
+                 "..##..###",
+                 "#####.##.",
+                 "#####.##.",
+                 "..##..###",
+                 "#....#..#"
+             ]
+         ], 400),
+
+        ("day13_b",
+         day13.parse_day13_a(), 36755)
+    ])
+    def test_sum_of_notes_v2(self, _, data, expected):
+        self.assertEqual(expected, day13.sum_of_notes_v2(data))
 
