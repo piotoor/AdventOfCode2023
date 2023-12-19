@@ -11,6 +11,7 @@ import day10
 import day11
 import day12
 import day18
+import day13
 
 import unittest
 from parameterized import parameterized
@@ -589,3 +590,48 @@ class Day18(unittest.TestCase):
     ])
     def test_calc_capacity_v2(self, _, data, expected):
         self.assertEqual(expected, day18.calc_capacity_v2(data))
+
+
+class Day13(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             [
+                 "#.##..##.",
+                 "..#.##.#.",
+                 "##......#",
+                 "##......#",
+                 "..#.##.#.",
+                 "..##..##.",
+                 "#.#.##.#."
+             ],
+
+             [
+                 "#...##..#",
+                 "#....#..#",
+                 "..##..###",
+                 "#####.##.",
+                 "#####.##.",
+                 "..##..###",
+                 "#....#..#"
+             ]
+         ], 405),
+        ("example 2",
+         [
+             [
+                 "...##....",
+                 ".#.##.#..",
+                 ".#....#..",
+                 ".##..##..",
+                 "...##....",
+                 "..####.##",
+                 "#..##..##"
+             ]
+         ], 8),
+        # ("day13_a",
+        #  day13.parse_day13_a(), )
+    ])
+    def test_sum_of_notes(self, _, data, expected):
+        self.assertEqual(expected, day13.sum_of_notes(data))
+
+

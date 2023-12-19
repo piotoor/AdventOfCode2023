@@ -1,4 +1,5 @@
 import day1
+import day13
 import day2
 import day3
 import day4
@@ -40,5 +41,6 @@ if __name__ == '__main__':
     # day11.day11_b()
     # day12.day12_a()
     # day12.day12_b()
-    day18.day18_a()
-    day18.day18_b()
+    # day18.day18_a()
+    # day18.day18_b()
+    day13.day13_a()
