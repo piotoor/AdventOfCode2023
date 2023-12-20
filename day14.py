@@ -82,14 +82,14 @@ def tilt_east(data):
 
 
 def total_load(data):
-    for x in data:
-        print(x)
+    # for x in data:
+    #     print(x)
 
     data = tilt_north(data)
 
-    print()
-    for x in data:
-        print(x)
+    # print()
+    # for x in data:
+    #     print(x)
 
     ans = 0
     for j in range(len(data[0])):
@@ -109,40 +109,11 @@ def hash_board(data):
 
 
 def total_load_cycles(data):
-    print("----------------------------------")
-    for x in data:
-        print(x)
-
-    # for i in range(3):
-    #     data = tilt_north(data)
-    #     print()
-    #     for x in data:
-    #         print(x)
-    #     data = tilt_west(data)
-    #     print()
-    #     for x in data:
-    #         print(x)
-    #     data = tilt_south(data)
-    #     print()
-    #     for x in data:
-    #         print(x)
-    #     data = tilt_east(data)
-    #     print()
-    #     for x in data:
-    #         print(x)
-    #     print("-----------")
-    # return 3
     h = {}
     num_of_iters = 1000000000
     s = -1
     b = -1
     for i in range(1, num_of_iters + 1):
-        if i % 10000 == 0:
-            print(i)
-            # for x in hashed_data:
-            #     print(x)
-            # print()
-
         data = tilt_north(data)
         data = tilt_west(data)
         data = tilt_south(data)
@@ -154,28 +125,22 @@ def total_load_cycles(data):
             if s == -1:
                 s = h[hashed_data]
                 b = i
-                print("repeated curr_iter = {} prev_iter = {}".format(i, h[hashed_data]))
-                print("values = {}".format(h.values()))
                 break
-
         else:
             h[hashed_data] = i
-        # if i == 3:
-        #     break
 
     a = s - 1
     b = b - s - 2
     c = num_of_iters
 
     ans_idx = s + c - a - ((c - a) // b) * b
-    print(a, b, c, s, ans_idx)
+    # print(a, b, c, s, ans_idx)
 
     ans = 0
     for key, val in h.items():
         if val == ans_idx:
-
-            for x in key:
-                print(x)
+            # for x in key:
+            #     print(x)
             for j in range(len(key[0])):
                 for i in range(0, len(key)):
                     if key[i][j] == 'O':
