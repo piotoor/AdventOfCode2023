@@ -12,6 +12,7 @@ import day11
 import day12
 import day18
 import day13
+import day14
 
 import unittest
 from parameterized import parameterized
@@ -664,3 +665,44 @@ class Day13(unittest.TestCase):
     def test_sum_of_notes_v2(self, _, data, expected):
         self.assertEqual(expected, day13.sum_of_notes_v2(data))
 
+
+class Day14(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             ["O", ".", ".", ".", ".", "#", ".", ".", ".", ".", ],
+             ["O", ".", "O", "O", "#", ".", ".", ".", ".", "#", ],
+             [".", ".", ".", ".", ".", "#", "#", ".", ".", ".", ],
+             ["O", "O", ".", "#", "O", ".", ".", ".", ".", "O", ],
+             [".", "O", ".", ".", ".", ".", ".", "O", "#", ".", ],
+             ["O", ".", "#", ".", ".", "O", ".", "#", ".", "#", ],
+             [".", ".", "O", ".", ".", "#", "O", ".", ".", "O", ],
+             [".", ".", ".", ".", ".", ".", ".", "O", ".", ".", ],
+             ["#", ".", ".", ".", ".", "#", "#", "#", ".", ".", ],
+             ["#", "O", "O", ".", ".", "#", ".", ".", ".", ".", ]
+         ], 136),
+        ("day14_a",
+         day14.parse_day14_a(), 109345)
+    ])
+    def test_total_load(self, _, data, expected):
+        self.assertEqual(expected, day14.total_load(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             ["O", ".", ".", ".", ".", "#", ".", ".", ".", ".", ],
+             ["O", ".", "O", "O", "#", ".", ".", ".", ".", "#", ],
+             [".", ".", ".", ".", ".", "#", "#", ".", ".", ".", ],
+             ["O", "O", ".", "#", "O", ".", ".", ".", ".", "O", ],
+             [".", "O", ".", ".", ".", ".", ".", "O", "#", ".", ],
+             ["O", ".", "#", ".", ".", "O", ".", "#", ".", "#", ],
+             [".", ".", "O", ".", ".", "#", "O", ".", ".", "O", ],
+             [".", ".", ".", ".", ".", ".", ".", "O", ".", ".", ],
+             ["#", ".", ".", ".", ".", "#", "#", "#", ".", ".", ],
+             ["#", "O", "O", ".", ".", "#", ".", ".", ".", ".", ]
+         ], 64),
+        # ("day14_b",
+        #  day14.parse_day14_a(), )
+    ])
+    def test_total_load_cycles(self, _, data, expected):
+        self.assertEqual(expected, day14.total_load_cycles(data))
