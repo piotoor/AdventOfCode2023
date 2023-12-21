@@ -14,7 +14,9 @@ import day13
 import day14
 import day15
 import day16
+import day17
 import day18
+
 
 import unittest
 from parameterized import parameterized
@@ -774,3 +776,28 @@ class Day16(unittest.TestCase):
     ])
     def test_num_of_energized_tiles_max(self, _, data, expected):
         self.assertEqual(expected, day16.num_of_energized_tiles_max(data))
+
+
+class Day17(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             list(map(int, list("2413432311323"))),
+             list(map(int, list("3215453535623"))),
+             list(map(int, list("3255245654254"))),
+             list(map(int, list("3446585845452"))),
+             list(map(int, list("4546657867536"))),
+             list(map(int, list("1438598798454"))),
+             list(map(int, list("4457876987766"))),
+             list(map(int, list("3637877979653"))),
+             list(map(int, list("4654967986887"))),
+             list(map(int, list("4564679986453"))),
+             list(map(int, list("1224686865563"))),
+             list(map(int, list("2546548887735"))),
+             list(map(int, list("4322674655533")))
+         ], 102),
+        # ("day17_a",
+        #  day16.parse_day18_a(), )
+    ])
+    def test_least_heat_loss(self, _, data, expected):
+        self.assertEqual(expected, day17.least_heat_loss(data))
