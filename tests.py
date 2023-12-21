@@ -749,8 +749,8 @@ class Day16(unittest.TestCase):
              ".|....-|.7",
              "..//.|...."
          ], 46),
-        # ("day16_a",
-        #  day16.parse_day16_a(), )
+        ("day16_a",
+         day16.parse_day16_a(), 7860)
     ])
     def test_num_of_energized_tiles(self, _, data, expected):
         self.assertEqual(expected, day16.num_of_energized_tiles(data))
