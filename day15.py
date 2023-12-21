@@ -27,7 +27,7 @@ def sum_of_results(data):
 
 def day15_a():
     data = parse_day15_a()
-    print("day14a = {}".format(sum_of_results(data)))
+    print("day15a = {}".format(sum_of_results(data)))
 
 
 def focusing_power(data):

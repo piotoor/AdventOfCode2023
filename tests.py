@@ -10,10 +10,11 @@ import day9
 import day10
 import day11
 import day12
-import day18
 import day13
 import day14
 import day15
+import day16
+import day18
 
 import unittest
 from parameterized import parameterized
@@ -715,8 +716,8 @@ class Day15(unittest.TestCase):
          [
              "rn=1", "cm-", "qp=3", "cm=2", "qp-", "pc=4", "ot=9", "ab=5", "pc-", "pc=6", "ot=7"
          ], 1320),
-        # ("day15_a",
-        #  day15.parse_day15_a(), )
+        ("day15_a",
+         day15.parse_day15_a(), 518107)
     ])
     def test_sum_of_results(self, _, data, expected):
         self.assertEqual(expected, day15.sum_of_results(data))
@@ -731,3 +732,25 @@ class Day15(unittest.TestCase):
     ])
     def test_focusing_power(self, _, data, expected):
         self.assertEqual(expected, day15.focusing_power(data))
+
+
+class Day16(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             ".|...7....",
+             "|.-.7.....",
+             ".....|-...",
+             "........|.",
+             "..........",
+             ".........7",
+             "..../.77..",
+             ".-.-/..|..",
+             ".|....-|.7",
+             "..//.|...."
+         ], 46),
+        # ("day16_a",
+        #  day16.parse_day16_a(), )
+    ])
+    def test_num_of_energized_tiles(self, _, data, expected):
+        self.assertEqual(expected, day16.num_of_energized_tiles(data))
