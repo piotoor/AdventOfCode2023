@@ -754,3 +754,23 @@ class Day16(unittest.TestCase):
     ])
     def test_num_of_energized_tiles(self, _, data, expected):
         self.assertEqual(expected, day16.num_of_energized_tiles(data))
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             ".|...7....",
+             "|.-.7.....",
+             ".....|-...",
+             "........|.",
+             "..........",
+             ".........7",
+             "..../.77..",
+             ".-.-/..|..",
+             ".|....-|.7",
+             "..//.|...."
+         ], 51),
+        ("day16_b",
+         day16.parse_day16_a(), 8331)
+    ])
+    def test_num_of_energized_tiles_max(self, _, data, expected):
+        self.assertEqual(expected, day16.num_of_energized_tiles_max(data))

@@ -48,27 +48,38 @@ def num_of_energized_tiles(data):
     visited_with_dir = set()
 
     traverse(data, visited, visited_with_dir, 0, -1, 0, 1, 0)
-
-    ans = 0
-
-    # for i in range(len(data)):
-    #     row = ""
-    #     for j in range(len(data[i])):
-    #         found = False
-    #         for x in visited:
-    #             curr, direction = x
-    #             if curr == (i, j):
-    #                 row += '#'
-    #                 ans += 1
-    #                 found = True
-    #                 break
-    #         if not found:
-    #             row += '.'
-    #     print(row)
-
     return len(visited)
 
 
 def day16_a():
     data = parse_day16_a()
     print("day16a = {}".format(num_of_energized_tiles(data)))
+
+
+def num_of_energized_tiles_max(data):
+    ans = 0
+    starts = {(1, 0): [], (-1, 0): [], (0, 1): [], (0, -1): []}
+
+    for i in range(len(data)):
+        starts[(0, 1)].append((i, -1))              # from left
+        starts[(0, -1)].append((i, len(data[i])))   # from right
+
+    for j in range(len(data[0])):
+        starts[(1, 0)].append((-1, j))              # from up
+        starts[(-1, 0)].append((len(data), j))      # from down
+
+    for direction in starts:
+        d = direction
+
+        for s in starts[d]:
+            visited = set()
+            visited_with_dir = set()
+            traverse(data, visited, visited_with_dir, s[0], s[1], d[0], d[1], 0)
+            ans = max(ans, len(visited))
+
+    return ans
+
+
+def day16_b():
+    data = parse_day16_a()
+    print("day16b = {}".format(num_of_energized_tiles_max(data)))
