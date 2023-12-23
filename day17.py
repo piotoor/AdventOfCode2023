@@ -46,7 +46,7 @@ perp_dirs = {
 }
 
 
-def dijkstra(data, source, target):
+def dijkstra(data, source, target, lower_bound, upper_bound):
     qq = []
     visited = set()
     heapq.heappush(qq, State(source, 0, RIGHT, 0))
@@ -61,35 +61,41 @@ def dijkstra(data, source, target):
 
         coords, cost, d, s = curr.dump_as_tuple()
 
-        if coords == target:
+        if coords == target and s >= lower_bound:
             return cost
 
-        if s < 3:  # continue direction
+        if s < upper_bound:  # continue direction
             new_curr = (coords[0] + d[0], coords[1] + d[1])
             r, c = new_curr
             if 0 <= r < len(data) and 0 <= c < len(data[0]):
                 heapq.heappush(qq, State(new_curr, cost + data[r][c], d, s + 1))
 
         # take two perpendicular directions
-        new_dirs = perp_dirs[d]
-        for nd in new_dirs:
-            new_curr = (coords[0] + nd[0], coords[1] + nd[1])
-            r, c = new_curr
-            if 0 <= r < len(data) and 0 <= c < len(data[0]):
-                heapq.heappush(qq, State(new_curr, cost + data[r][c], nd, 1))
+        if s >= lower_bound:
+            new_dirs = perp_dirs[d]
+            for nd in new_dirs:
+                new_curr = (coords[0] + nd[0], coords[1] + nd[1])
+                r, c = new_curr
+                if 0 <= r < len(data) and 0 <= c < len(data[0]):
+                    heapq.heappush(qq, State(new_curr, cost + data[r][c], nd, 1))
 
     return -1
 
 
-def least_heat_loss(data):
+def least_heat_loss(data, lower_bound, upper_bound):
     source = (0, 0)
     target = (len(data) - 1, len(data[0]) - 1)
 
-    ans = dijkstra(data, source, target)
+    ans = dijkstra(data, source, target, lower_bound, upper_bound)
 
     return ans
 
 
 def day17_a():
     data = parse_day17_a()
-    print("day17a = {}".format(least_heat_loss(data)))
+    print("day17a = {}".format(least_heat_loss(data, 0, 3)))
+
+
+def day17_b():
+    data = parse_day17_a()
+    print("day17b = {}".format(least_heat_loss(data, 4, 10)))
