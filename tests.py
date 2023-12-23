@@ -16,7 +16,7 @@ import day15
 import day16
 import day17
 import day18
-
+import day19
 
 import unittest
 from parameterized import parameterized
@@ -820,3 +820,71 @@ class Day17(unittest.TestCase):
     ])
     def test_least_heat_loss(self, _, data, lower_bound, upper_bound, expected):
         self.assertEqual(expected, day17.least_heat_loss(data, lower_bound, upper_bound))
+
+
+class Day19(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             {
+                 "px": (
+                         ("a<2006", "qkq"),
+                         ("m>2090", "A"),
+                         ("", "rfg")
+                 ),
+                 "pv": (
+                         ("a>1716", "R"),
+                         ("", "A")
+                 ),
+                 "lnx": (
+                         ("m>1548", "A"),
+                         ("", "A")
+                 ),
+                 "rfg": (
+                         ("s,537", "gd"),
+                         ("x>2440", "R"),
+                         ("", "A")
+                 ),
+                 "qs": (
+                         ("s>3448", "A"),
+                         ("", "lnx")
+                 ),
+                 "qkq": (
+                         ("x<1416", "A"),
+                         ("", "crn")
+                 ),
+                 "crn": (
+                         ("x>2662", "A"),
+                         ("", "R")
+                 ),
+                 "in": (
+                         ("s<1351", "px"),
+                         ("", "qqz")
+                 ),
+                 "qqz": (
+                         ("s>2770", "qs"),
+                         ("m<1801", "hdj"),
+                         ("", "R")
+                 ),
+                 "gd": (
+                         ("a>3333", "R"),
+                         ("", "R")
+                 ),
+                 "hdj": (
+                         ("m>838", "A"),
+                         ("", "pv")
+                 )
+             },
+             [
+                (787, 2655, 1222, 2876),
+                (1679, 44, 2067, 496),
+                (2036, 264, 79, 2244),
+                (2461, 1339, 466, 291),
+                (2127, 1623, 2188, 1013),
+             ]
+         ], 19114),
+        # ("day19_a",
+        #  day19.parse_day19_a(), )
+    ])
+    def test_sum_of_rating_numbers(self, _, data, expected):
+        self.assertEqual(expected, day19.sum_of_rating_numbers(data))
