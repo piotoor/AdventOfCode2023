@@ -2,7 +2,6 @@ def parse_day19_a():
     with open("day19.txt", "r") as f:
         data = list(f.read().splitlines())
 
-    parsed = []
     first_part = True
     workflows = {}
     ratings = []
@@ -33,11 +32,44 @@ def parse_day19_a():
     for y in ratings:
         print(y)
 
-    return parsed
+    return [workflows, ratings]
 
 
 def sum_of_rating_numbers(data):
-    return -1
+    workflows, ratings = data
+    # print(workflows, ratings)
+    ans = 0
+    # x m a s
+    for r in ratings:
+        print("-----------------------------------")
+        print("rating = {}".format(r))
+        result = 'None'
+        curr_workflow = "in"
+        x, m, a, s = r
+        print("xmas = {} {} {} {}".format(x, m, a, s))
+        while result not in ("A", "R"):
+            w = workflows[curr_workflow]
+            print("workflow = {}".format(w))
+            for cond in w:
+                c, act = cond
+                print(c, act)
+                if c != '':
+                    if eval(c):
+                        if act in ("A", "R"):
+                            result = act
+                        else:
+                            curr_workflow = act
+                            print("curr workflow = {}".format(curr_workflow))
+                        break
+                else:
+                    if act in ("A", "R"):
+                        result = act
+                    else:
+                        curr_workflow = act
+        print("result = {} ----------------------------------------------".format(result))
+        if result == "A":
+            ans += sum(r)
+    return ans
 
 
 def day19_a():
