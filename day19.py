@@ -29,11 +29,11 @@ def parse_day19_a():
             for r in ratings_row:
                 ratings[-1].append(int(r[2:]))
 
-    for x in workflows:
-        print(x, workflows[x])
-
-    for y in ratings:
-        print(y)
+    # for x in workflows:
+    #     print(x, workflows[x])
+    #
+    # for y in ratings:
+    #     print(y)
 
     return [workflows, ratings]
 
@@ -110,21 +110,6 @@ left_to_idx = {
 }
 
 
-def merge_ranges(ranges):
-    idx = 0
-    ranges = list(map(list, ranges))
-    ranges.sort()
-    for i in range(1, len(ranges)):
-        if ranges[idx][1] >= ranges[i][0]:
-            ranges[idx][1] = max(ranges[idx][1], ranges[i][1])
-        else:
-            idx += 1
-            ranges[idx] = ranges[i]
-
-    ranges = list(map(list, ranges))
-    return ranges[:idx + 1]
-
-
 def ranges_intersection(a, b):          # returns intersection, rest
     inters = []
     rest_l = []
@@ -152,19 +137,15 @@ def reverse_range(r):
 
 
 def compute_ranges(states, curr_state_in, data, workflow, depth):
-    print("-" * depth + "curr_state_in = {}".format(curr_state_in), workflow)
     ans = False
     if workflow == "A":
         states.append(copy.deepcopy(curr_state_in))
-        print(curr_state_in)
         return True
     elif workflow == "R":
         return False
     else:
-        prev_c = []
         curr_state = copy.deepcopy(curr_state_in)
         for row in data[workflow]:
-            # print(row)
             c, a = row
             if c != '':
                 var = c[0]
@@ -176,46 +157,34 @@ def compute_ranges(states, curr_state_in, data, workflow, depth):
                 else:
                     curr_range = [int(val) + 1, 4001]
 
-                # print("-" * depth + "curr_range = {} c = {} a = {}, curr_state = {} idx = {}".format(curr_range, c, a, curr_state, idx))
                 new_curr_state = copy.deepcopy(curr_state)
                 new_curr_state[idx] = ranges_intersection(new_curr_state[idx], curr_range)[0]
                 reversed_curr_range = reverse_range(curr_range)
-                print("-" * depth + "new_curr_state = {} curr_range = {} reversd_curr_range = {}".format(new_curr_state, curr_range, reversed_curr_range))
 
                 ans = compute_ranges(states, new_curr_state, data, a, depth + 1)
-
-
                 curr_state[idx] = ranges_intersection(curr_state[idx], reversed_curr_range)[0]
-                print("-" * depth + "curr_state = {} idx = {} reversed_curr_range = {}".format(curr_state, idx, reversed_curr_range))
-                print()
             else:
-                print("-" * depth + "the last one curr_state = {} curr_range = {}".format(curr_state, curr_range))
                 ans = compute_ranges(states, curr_state, data, a, depth + 1)
     return ans
 
 
 def num_of_valid_ratings(data):
     ans = 0
-    workflows, ratings = data
+    # workflows, ratings = data
 
     curr_state = [[1, 4001], [1, 4001], [1, 4001], [1, 4001]]
     states = []
 
     compute_ranges(states, curr_state, data[0], "in", 0)
 
-    print("---------------------- ans ----------------------")
     for state in states:
         # print(state)
         for i in range(len(state)):
             if len(state[i]) == 0:
                 state[i] = [[1, 4001]]
 
-        print(state)
-
-
-    for state in states:
-        ans += (state[0][1] - state[0][0]) * (state[1][1] - state[1][0]) * (state[2][1] - state[2][0]) * (state[3][1] - state[3][0])
-
+        ans += (state[0][1] - state[0][0]) * (state[1][1] - state[1][0]) * (state[2][1] - state[2][0]) * (
+                    state[3][1] - state[3][0])
 
     return ans
 
