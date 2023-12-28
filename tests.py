@@ -983,8 +983,15 @@ class Day20(unittest.TestCase):
                  "con": [["output"], ["a", "b"]]
              }
          ], 11687500),
-        # ("day20_a",
-        #  day20.parse_day20_a(), )
+        ("day20_a",
+         day20.parse_day20_a(), 867118762)
     ])
     def test_pulses_multiplied(self, _, data, expected):
         self.assertEqual(expected, day20.pulses_multiplied(data))
+
+    @parameterized.expand([
+        ("day20_b",
+         day20.parse_day20_a(), 217317393039529)
+    ])
+    def test_presses_until_rx(self, _, data, expected):
+        self.assertEqual(expected, day20.presses_until_rx(data))

@@ -1,6 +1,7 @@
 from enum import Enum
 from collections import OrderedDict
 from collections import deque
+from math import lcm
 
 
 def parse_day20_a():
@@ -40,14 +41,12 @@ def parse_day20_a():
             if y in parsed[2]:
                 parsed[2][y][1].append(src)
 
-
-    for x in parsed[1]:
-        print(x, parsed[1][x])
-
-    print()
-
-    for x in parsed[2]:
-        print(x, parsed[2][x])
+    # for x in parsed[1]:
+    #     print(x, parsed[1][x])
+    # print()
+    #
+    # for x in parsed[2]:
+    #     print(x, parsed[2][x])
 
     return parsed
 
@@ -60,6 +59,23 @@ class Signal(Enum):
 class Module:
     hi_count = 0
     lo_count = 0
+
+    btn = 1
+    modules_h = {
+        "vm": set(),
+        "kb": set(),
+        "dn": set(),
+        "vk": set()
+    }
+
+    modules_all_h_iter = {
+        "vm": -1,
+        "kb": -1,
+        "dn": -1,
+        "vk": -1
+    }
+
+    all_data_present = False
 
     def __init__(self, num_of_dst):
         self.state = Signal.LO
@@ -81,17 +97,17 @@ class FlipFlopModule(Module):
     def process_signal(self, signal, src, tag):
         if signal == Signal.HI:
             self.output = False
-            print(tag + " >>>>>>>> NONE")
+            # print(tag + " >>>>>>>> NONE")
         else:
             self.output = True
             if self.state == Signal.LO:
                 self.state = Signal.HI
                 Module.hi_count += self.num_of_dst
-                print(tag + " >>>>>>>> " + "HI" * self.num_of_dst)
+                # print(tag + " >>>>>>>> " + "HI" * self.num_of_dst)
             else:
                 self.state = Signal.LO
                 Module.lo_count += self.num_of_dst
-                print(tag + " >>>>>>>> " + "LO" * self.num_of_dst)
+                # print(tag + " >>>>>>>> " + "LO" * self.num_of_dst)
 
 
 class ConjunctionModule(Module):
@@ -105,14 +121,24 @@ class ConjunctionModule(Module):
         # print("conjunction {} connected = {}".format(tag, self.connected_modules))
         self.output = True
         self.connected_modules[src] = signal
+
+        if tag in ["vm", "kb", "dn", "vk"]:
+            s = connected_to_string(self.connected_modules)
+            Module.modules_h[tag].add(s)
+            if all([x == '1' for x in s]):
+                Module.modules_all_h_iter[tag] = Module.btn
+
+        if all([Module.modules_all_h_iter[x] != -1 for x in Module.modules_all_h_iter]):
+            Module.all_data_present = True
+
         if all(list(x == Signal.HI for x in self.connected_modules.values())):
             self.state = Signal.LO
             Module.lo_count += self.num_of_dst
-            print(tag + " >>>>>>>> " + "LO" * self.num_of_dst)
+            # print(tag + " >>>>>>>> " + "LO" * self.num_of_dst)
         else:
             self.state = Signal.HI
             Module.hi_count += self.num_of_dst
-            print(tag + " >>>>>>>> " + "HI" * self.num_of_dst)
+            # print(tag + " >>>>>>>> " + "HI" * self.num_of_dst)
 
 
 class BroadcastModule(Module):
@@ -125,10 +151,10 @@ class BroadcastModule(Module):
         self.state = signal
         if self.state == Signal.HI:
             Module.hi_count += 1
-            print("broadcaster >>>>>>>> HI")
+            # print("broadcaster >>>>>>>> HI")
         else:
             Module.lo_count += 1
-            print("broadcaster >>>>>>>> LO")
+            # print("broadcaster >>>>>>>> LO")
 
 
 class Button(Module):
@@ -138,7 +164,7 @@ class Button(Module):
 
     def process_signal(self):
         Module.lo_count += 1
-        print("button >>>>>>>> LO")
+        # print("button >>>>>>>> LO")
 
 
 def pulses_multiplied(data):
@@ -148,12 +174,9 @@ def pulses_multiplied(data):
     broadcaster = BroadcastModule()
     modules = OrderedDict()
     for k in ff:
-        print(k, ff[k])
         modules[k] = FlipFlopModule(len(ff[k][0]))
 
-    print()
     for k in con:
-        print(k, con[k])
         modules[k] = ConjunctionModule(con[k][1], len(con[k][0]))
 
     ff_con = {}
@@ -162,21 +185,13 @@ def pulses_multiplied(data):
 
     button = Button()
     for btn in range(0, 1000):
-        print("-----------------------------------")
-        curr = OrderedDict()
         button.process_signal()
         qq = deque()    # (module, input_signal)
         for x in bc:
             broadcaster.process_signal(Signal.LO)
             qq.append((x, broadcaster.get_state(), "broadcaster"))
 
-            # modules[x].process_signal(broadcaster.get_state(), "broadcaster", x)
-            # curr[x] = None
-            # print(modules[x].state)
-        print("-----------------------------------")
-
         while qq:
-            print("len(qq) = {}".format(len(qq)))
             tag, input_signal, src = qq.popleft()
             if tag not in modules or input_signal is None:
                 continue
@@ -186,34 +201,73 @@ def pulses_multiplied(data):
             for trgt in ff_con[tag][0]:
                 qq.append((trgt, module.get_state(), tag))
 
-            # curr_2 = OrderedDict()
-            # print("-------- go --------")
-            # ans = OrderedDict()
-            # for x in curr:
-            #     ans[x] = modules[x].get_state()
-            #
-            # for x in ans:
-            #     if ans[x] is not None:
-            #         go = True
-            #         for trgt in ff_con[x][0]:
-            #             if trgt in modules:
-            #                 modules[trgt].process_signal(ans[x], x, trgt)
-            #                 curr_2[trgt] = None
-            #
-            # curr.clear()
-            # curr = curr_2.copy()
-
-
-
-
-    # print("dddddddddddddddddddddddddddddddddddddddddd")
-    # for x in modules:
-    #     print("modules[{}].state = {}".format(x, modules[x].state))
-
-    print(Module.lo_count, Module.hi_count)
     return Module.lo_count * Module.hi_count
 
 
 def day20_a():
     data = parse_day20_a()
     print("day20a = {}".format(pulses_multiplied(data)))
+
+
+def stoi(signal):
+    return 1 if signal == Signal.HI else 0
+
+
+def connected_to_string(connected):
+    ans = ""
+
+    for x in connected:
+        ans += str(stoi(connected[x]))
+
+    return ans
+
+
+def presses_until_rx(data):
+    Module.hi_count = 0
+    Module.lo_count = 0
+    bc, ff, con = data
+    broadcaster = BroadcastModule()
+    modules = OrderedDict()
+    for k in ff:
+        modules[k] = FlipFlopModule(len(ff[k][0]))
+
+    for k in con:
+        modules[k] = ConjunctionModule(con[k][1], len(con[k][0]))
+
+    ff_con = {}
+    ff_con |= ff
+    ff_con |= con
+
+    button = Button()
+    low_rx = False
+
+    while not low_rx:
+        if Module.all_data_present:
+            break
+        button.process_signal()
+        qq = deque()    # (module, input_signal)
+        for x in bc:
+            broadcaster.process_signal(Signal.LO)
+            qq.append((x, broadcaster.get_state(), "broadcaster"))
+
+        while qq:
+            tag, input_signal, src = qq.popleft()
+            if input_signal == Signal.LO and tag == "rx":
+                low_rx = True
+                break
+            if tag not in modules or input_signal is None:
+                continue
+            module = modules[tag]
+            module.process_signal(input_signal, src, tag)
+
+            for trgt in ff_con[tag][0]:
+                qq.append((trgt, module.get_state(), tag))
+        Module.btn += 1
+
+    vals = list(Module.modules_all_h_iter.values())
+    return lcm(vals[0], vals[1], vals[2], vals[3])
+
+
+def day20_b():
+    data = parse_day20_a()
+    print("day20b = {}".format(presses_until_rx(data)))

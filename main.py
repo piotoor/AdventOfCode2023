@@ -63,3 +63,4 @@ if __name__ == '__main__':
     # day19.day19_a()
     # day19.day19_b()
     day20.day20_a()
+    day20.day20_b()
