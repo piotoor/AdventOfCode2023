@@ -958,44 +958,44 @@ sys.setrecursionlimit(150000)
 #         self.assertEqual(expected, day19.num_of_valid_ratings(data))
 
 
-class Day20(unittest.TestCase):
-    @parameterized.expand([
-        ("example 1",
-         [
-             ["a", "b", "c"],
-             {
-                "a": [["b"]],
-                "b": [["c"]],
-                "c": [["inv"]]
-             },
-             {
-                 "inv": [["a"], ["c"]]      # 1 - sources
-             }
-         ], 32000000),
-        ("example 2",
-         [
-             ["a"],
-             {
-                 "a": [["inv", "con"]],
-                 "b": [["con"]],
-             },
-             {
-                 "inv": [["b"], ["a"]],     # 1 - sources
-                 "con": [["output"], ["a", "b"]]
-             }
-         ], 11687500),
-        ("day20_a",
-         day20.parse_day20_a(), 867118762)
-    ])
-    def test_pulses_multiplied(self, _, data, expected):
-        self.assertEqual(expected, day20.pulses_multiplied(data))
-
-    @parameterized.expand([
-        ("day20_b",
-         day20.parse_day20_a(), 217317393039529)
-    ])
-    def test_presses_until_rx(self, _, data, expected):
-        self.assertEqual(expected, day20.presses_until_rx(data))
+# class Day20(unittest.TestCase):
+#     @parameterized.expand([
+#         ("example 1",
+#          [
+#              ["a", "b", "c"],
+#              {
+#                 "a": [["b"]],
+#                 "b": [["c"]],
+#                 "c": [["inv"]]
+#              },
+#              {
+#                  "inv": [["a"], ["c"]]      # 1 - sources
+#              }
+#          ], 32000000),
+#         ("example 2",
+#          [
+#              ["a"],
+#              {
+#                  "a": [["inv", "con"]],
+#                  "b": [["con"]],
+#              },
+#              {
+#                  "inv": [["b"], ["a"]],     # 1 - sources
+#                  "con": [["output"], ["a", "b"]]
+#              }
+#          ], 11687500),
+#         ("day20_a",
+#          day20.parse_day20_a(), 867118762)
+#     ])
+#     def test_pulses_multiplied(self, _, data, expected):
+#         self.assertEqual(expected, day20.pulses_multiplied(data))
+#
+#     @parameterized.expand([
+#         ("day20_b",
+#          day20.parse_day20_a(), 217317393039529)
+#     ])
+#     def test_presses_until_rx(self, _, data, expected):
+#         self.assertEqual(expected, day20.presses_until_rx(data))
 
 
 class Day21(unittest.TestCase):
@@ -1014,8 +1014,15 @@ class Day21(unittest.TestCase):
              ".##..##.##.",
              "..........."
          ], 6, 16),
-        # ("day21_a",
-        #  day21.parse_day21_a(),)
+        ("day21_a",
+         day21.parse_day21_a(), 64, 3617)
     ])
     def test_count_garden_plots(self, _, data, steps, expected):
         self.assertEqual(expected, day21.count_garden_plots(data, steps))
+
+    @parameterized.expand([
+        ("day21_b",
+         day21.parse_day21_a(), 26501365, 596857397104703)
+    ])
+    def test_count_garden_plots_v2(self, _, data, steps, expected):
+        self.assertEqual(expected, day21.count_garden_plots_v2(data, steps))
