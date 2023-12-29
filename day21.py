@@ -26,25 +26,6 @@ def print_visited(data, visited):
         print(row)
 
 
-# def dfs(data, r, c, s, h, v):
-#     if s == 0:
-#         if (r, c) not in v:
-#             v.add((r, c))
-#             return 1
-#         else:
-#             return 0
-#     else:
-#         ans = 0
-#         for new_pos in ((r, c - 1), (r, c + 1), (r - 1, c), (r + 1, c)):
-#             i, j = new_pos
-#             if i < 0 or i >= len(data) or j < 0 or j >= len(data[0]) or data[i][j] not in "S.":
-#                 continue
-#
-#             ans += dfs(data, i, j, s - 1, h, v)
-#
-#         return ans
-
-
 def dfs(data, r, c, s, h, v):
     if s == 0:
         if (r, c) not in v:
