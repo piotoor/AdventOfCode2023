@@ -18,6 +18,7 @@ import day17
 import day18
 import day19
 import day20
+import day21
 
 import unittest
 from parameterized import parameterized
@@ -995,3 +996,26 @@ class Day20(unittest.TestCase):
     ])
     def test_presses_until_rx(self, _, data, expected):
         self.assertEqual(expected, day20.presses_until_rx(data))
+
+
+class Day21(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             "...........",
+             ".....###.#.",
+             ".###.##..#.",
+             "..#.#...#..",
+             "....#.#....",
+             ".##..S####.",
+             ".##..#...#.",
+             ".......##..",
+             ".##.#.####.",
+             ".##..##.##.",
+             "..........."
+         ], 6, 16),
+        # ("day21_a",
+        #  day21.parse_day21_a(),)
+    ])
+    def test_count_garden_plots(self, _, data, steps, expected):
+        self.assertEqual(expected, day21.count_garden_plots(data, steps))
