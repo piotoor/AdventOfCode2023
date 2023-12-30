@@ -19,6 +19,7 @@ import day18
 import day19
 import day20
 import day21
+import day22
 
 import unittest
 from parameterized import parameterized
@@ -998,31 +999,50 @@ sys.setrecursionlimit(150000)
 #         self.assertEqual(expected, day20.presses_until_rx(data))
 
 
-class Day21(unittest.TestCase):
+# class Day21(unittest.TestCase):
+#     @parameterized.expand([
+#         ("example 1",
+#          [
+#              "...........",
+#              ".....###.#.",
+#              ".###.##..#.",
+#              "..#.#...#..",
+#              "....#.#....",
+#              ".##..S####.",
+#              ".##..#...#.",
+#              ".......##..",
+#              ".##.#.####.",
+#              ".##..##.##.",
+#              "..........."
+#          ], 6, 16),
+#         ("day21_a",
+#          day21.parse_day21_a(), 64, 3617)
+#     ])
+#     def test_count_garden_plots(self, _, data, steps, expected):
+#         self.assertEqual(expected, day21.count_garden_plots(data, steps))
+#
+#     @parameterized.expand([
+#         ("day21_b",
+#          day21.parse_day21_a(), 26501365, 596857397104703)
+#     ])
+#     def test_count_garden_plots_v2(self, _, data, steps, expected):
+#         self.assertEqual(expected, day21.count_garden_plots_v2(data, steps))
+
+
+class Day22(unittest.TestCase):
     @parameterized.expand([
         ("example 1",
          [
-             "...........",
-             ".....###.#.",
-             ".###.##..#.",
-             "..#.#...#..",
-             "....#.#....",
-             ".##..S####.",
-             ".##..#...#.",
-             ".......##..",
-             ".##.#.####.",
-             ".##..##.##.",
-             "..........."
-         ], 6, 16),
-        ("day21_a",
-         day21.parse_day21_a(), 64, 3617)
+             ((1, 0, 1), (1, 2, 1)),
+             ((0, 0, 2), (2, 0, 2)),
+             ((0, 2, 3), (2, 2, 3)),
+             ((0, 0, 4), (0, 2, 4)),
+             ((2, 0, 5), (2, 2, 5)),
+             ((0, 1, 6), (2, 1, 6)),
+             ((1, 1, 8), (1, 1, 9))
+         ], 5),
+        # ("day22_a",
+        #  day22.parse_day22_a(), )
     ])
-    def test_count_garden_plots(self, _, data, steps, expected):
-        self.assertEqual(expected, day21.count_garden_plots(data, steps))
-
-    @parameterized.expand([
-        ("day21_b",
-         day21.parse_day21_a(), 26501365, 596857397104703)
-    ])
-    def test_count_garden_plots_v2(self, _, data, steps, expected):
-        self.assertEqual(expected, day21.count_garden_plots_v2(data, steps))
+    def test_count_disintegrateable_blocks(self, _, data, expected):
+        self.assertEqual(expected, day22.count_disintegrateable_blocks(data))
