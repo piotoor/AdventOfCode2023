@@ -29,8 +29,15 @@ class Block:
 
         self.lowest_z = min(x[2] for x in self.cubes)
 
-    def can_fall(self, other_blocks):
-        for other in other_blocks:
+    def can_fall(self, lower_blocks):
+        # for other in other_blocks:
+        #     if other.curr_id == self.curr_id:
+        #         continue
+        #     if other.visible:
+        #         if self.is_blocked_by(other):
+        #             return False
+        # return all(x[2] != 1 for x in self.cubes)
+        for other in lower_blocks:
             if other.curr_id == self.curr_id:
                 continue
             if other.visible:
@@ -100,21 +107,23 @@ def count_disintegrateable_blocks(data):
 
     blocks.sort(key=lambda bl: bl.lowest_z)
 
-    for b in blocks:
-        b.visible = False
-        print("trying {}".format(b.curr_id))
+    for i in range(len(blocks)):
+        blocks[i].visible = False
+        print("trying {}".format(blocks[i].curr_id))
         disintegrateable = True
-        for o in blocks:
-            if b.curr_id == o.curr_id:
+        for j in range(i + 1, len(blocks)):
+            # if blocks[j].lowest_z > blocks[i].lowest_z + 4:
+            #     break
+            if blocks[i].curr_id == blocks[j].curr_id:
                 continue
-            if o.can_fall(blocks):
+            if blocks[j].can_fall(blocks[0: j]):
                 disintegrateable = False
                 break
 
         if disintegrateable:
-            print("can be disintegrated {}".format(b.curr_id))
+            print("can be disintegrated {}".format(blocks[i].curr_id))
             ans += 1
-        b.visible = True
+        blocks[i].visible = True
 
 
 
