@@ -27,6 +27,8 @@ class Block:
             for i in range(start[2], end[2] + 1):
                 self.cubes.append([start[0], start[1], i])
 
+        self.lowest_z = min(x[2] for x in self.cubes)
+
     def can_fall(self, other_blocks):
         for other in other_blocks:
             if other.curr_id == self.curr_id:
@@ -38,7 +40,6 @@ class Block:
 
     def drop(self, other_blocks):
         new_z = 1
-        lowest_z = min(x[2] for x in self.cubes)
 
         for other in other_blocks:
             if other.curr_id == self.curr_id:
@@ -46,10 +47,10 @@ class Block:
             if other.visible:
                 for cube in self.cubes:
                     for other_cube in other.cubes:
-                        if cube[0] == other_cube[0] and cube[1] == other_cube[1] and lowest_z > other_cube[2]:
+                        if cube[0] == other_cube[0] and cube[1] == other_cube[1] and self.lowest_z > other_cube[2]:
                             new_z = max(new_z, other_cube[2] + 1)
 
-        delta = lowest_z - new_z
+        delta = self.lowest_z - new_z
         for x in self.cubes:
             x[2] -= delta
 
@@ -71,17 +72,24 @@ def count_disintegrateable_blocks(data):
         print("block {} = {}       {} -> {}".format(curr_id, blocks[-1].cubes, s, e))
         curr_id += 1
 
+    blocks.sort(key=lambda bl: bl.lowest_z)
+    # for x in blocks:
+    #     print(x.cubes)
     # for b1 in blocks:
     #     if b1.can_fall(blocks):
     #         print("{} can fall".format(b1.curr_id))
 
     print("dropping down...")
-    settled = False
-    while not settled:
-        for b in blocks:
-            b.drop(blocks)
 
-        settled = all([x.can_fall(blocks) is False for x in blocks])
+    for b in blocks:
+        b.drop(blocks)
+
+    # settled = False
+    # while not settled:
+    #     for b in blocks:
+    #         b.drop(blocks)
+    #
+    #     settled = all([x.can_fall(blocks) is False for x in blocks])
 
     print("----------------- output -----------------")
     for b in blocks:
@@ -89,6 +97,8 @@ def count_disintegrateable_blocks(data):
 
     print("-----------------------")
     ans = 0
+
+    blocks.sort(key=lambda bl: bl.lowest_z)
 
     for b in blocks:
         b.visible = False
@@ -105,6 +115,7 @@ def count_disintegrateable_blocks(data):
             print("can be disintegrated {}".format(b.curr_id))
             ans += 1
         b.visible = True
+
 
 
 
