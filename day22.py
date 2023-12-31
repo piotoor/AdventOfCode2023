@@ -1,3 +1,5 @@
+from collections import deque
+
 def parse_day22_a():
     with open("day22.txt", "r") as f:
         data = list(f.read().splitlines())
@@ -63,7 +65,25 @@ class Block:
         return False
 
 
-def count_disintegrateable_blocks(data):
+# def dfs(block, depth):
+#     print("dfs: " + "-" * depth + " {}".format(block.curr_id))
+#     if len(block.top_neighbours) == 0:
+#         return 0
+#
+#     ans = 0
+#     for ngh in block.top_neighbours:
+#         print("-" * depth + " ngh testing {}".format(ngh.curr_id))
+#         if ngh.can_fall():
+#             print("-" * depth + " ngh can fall {}".format(ngh.curr_id))
+#             ans += 1
+#             ngh.visible = False
+#             ans += dfs(ngh, depth + 1)
+#             ngh.visible = True
+#
+#     return ans
+
+
+def count_blocks(data):
     blocks = []
     curr_id = 0
     for x in data:
@@ -84,8 +104,7 @@ def count_disintegrateable_blocks(data):
     for b in blocks:
         print("block {} = {}".format(b.curr_id, b.cubes))
 
-
-    ans = 0
+    ans_part1 = 0
 
     blocks.sort(key=lambda bl: bl.lowest_z)
 
@@ -107,26 +126,55 @@ def count_disintegrateable_blocks(data):
                 disintegrateable = False
                 break
 
-        # for j in range(i + 1, len(blocks)):
-        #     # if blocks[j].lowest_z > blocks[i].lowest_z + 4:
-        #     #     break
-        #     if blocks[i].curr_id == blocks[j].curr_id:
-        #         continue
-        #     if blocks[j].can_fall(blocks[0: j]):
-        #         disintegrateable = False
-        #         break
-
         if disintegrateable:
             print("can be disintegrated {}".format(blocks[i].curr_id))
-            ans += 1
+            ans_part1 += 1
         blocks[i].visible = True
 
+    print("top neighbours")
+    for b in blocks:
+        print("block {}".format(b.curr_id))
+        for x in b.top_neighbours:
+            print("---- {}".format(x.curr_id))
 
 
+    ans_part2 = 0
+    for b in blocks:
+        print("-----------------> {}".format(b.curr_id))
+        b.visible = False
+        qq = deque()
+        chain_reaction = 0
+        h = set()
+        for ngh in b.top_neighbours:
+            qq.append(ngh)
+            h.add(ngh)
 
-    return ans
+        while qq:
+            curr = qq.popleft()
+            h.remove(curr)
+            print("curr = {}".format(curr.curr_id))
+            if curr.can_fall():
+                print(curr.curr_id)
+                curr.visible = False
+                chain_reaction += 1
+                for n in curr.top_neighbours:
+                    if n in h:
+                        continue
+                    qq.append(n)
+                    h.add(n)
+        for k in blocks:
+            k.visible = True
+        print("b {} ans = {}".format(b.curr_id, chain_reaction))
+        ans_part2 += chain_reaction
+
+    return ans_part1, ans_part2
 
 
 def day22_a():
     data = parse_day22_a()
-    print("day22_a = {}".format(count_disintegrateable_blocks(data)))
+    print("day22_a = {}".format(count_blocks(data)[0]))
+
+
+def day22_b():
+    data = parse_day22_a()
+    print("day22_b = {}".format(count_blocks(data)[1]))
