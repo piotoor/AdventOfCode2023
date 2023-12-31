@@ -1059,8 +1059,8 @@ class Day22(unittest.TestCase):
              ((0, 1, 6), (2, 1, 6)),
              ((1, 1, 8), (1, 1, 9))
          ], 7),
-        # ("day22_b",
-        #  day22.parse_day22_a(), )
+        ("day22_b",
+         day22.parse_day22_a(), 100376)
     ])
     def test_count_fallen_blocks(self, _, data, expected):
         self.assertEqual(expected, day22.count_blocks(data)[1])

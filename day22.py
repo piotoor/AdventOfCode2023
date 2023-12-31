@@ -1,5 +1,6 @@
 from collections import deque
 
+
 def parse_day22_a():
     with open("day22.txt", "r") as f:
         data = list(f.read().splitlines())
@@ -7,9 +8,7 @@ def parse_day22_a():
     parsed = []
     for row in data:
         begin, end = row.split("~")
-        # print((begin.split(",")))
         parsed.append((tuple(map(int, begin.split(","))), tuple(map(int, end.split(",")))))
-        print(parsed[-1])
     return parsed
 
 
@@ -65,50 +64,29 @@ class Block:
         return False
 
 
-# def dfs(block, depth):
-#     print("dfs: " + "-" * depth + " {}".format(block.curr_id))
-#     if len(block.top_neighbours) == 0:
-#         return 0
-#
-#     ans = 0
-#     for ngh in block.top_neighbours:
-#         print("-" * depth + " ngh testing {}".format(ngh.curr_id))
-#         if ngh.can_fall():
-#             print("-" * depth + " ngh can fall {}".format(ngh.curr_id))
-#             ans += 1
-#             ngh.visible = False
-#             ans += dfs(ngh, depth + 1)
-#             ngh.visible = True
-#
-#     return ans
-
-
 def count_blocks(data):
     blocks = []
     curr_id = 0
     for x in data:
         s, e = x
         blocks.append(Block(s, e, curr_id))
-        print("block {} = {}       {} -> {}".format(curr_id, blocks[-1].cubes, s, e))
+        # print("block {} = {}       {} -> {}".format(curr_id, blocks[-1].cubes, s, e))
         curr_id += 1
 
     blocks.sort(key=lambda bl: bl.lowest_z)
 
-    print("dropping down...")
-
+    # print("dropping down...")
     for b in blocks:
         b.drop(blocks)
-    print("dropping done")
+    # print("dropping done")
 
-    print("----------------- output -----------------")
-    for b in blocks:
-        print("block {} = {}".format(b.curr_id, b.cubes))
+    # print("----------------- output -----------------")
+    # for b in blocks:
+    #     print("block {} = {}".format(b.curr_id, b.cubes))
 
     ans_part1 = 0
-
     blocks.sort(key=lambda bl: bl.lowest_z)
 
-    print("-----------------------")
     for b in blocks:
         for bb in blocks:
             if b is not bb:
@@ -118,7 +96,6 @@ def count_blocks(data):
 
     for i in range(len(blocks)):
         blocks[i].visible = False
-        print("trying {}".format(blocks[i].curr_id))
         disintegrateable = True
 
         for ngh in blocks[i].top_neighbours:
@@ -127,20 +104,17 @@ def count_blocks(data):
                 break
 
         if disintegrateable:
-            print("can be disintegrated {}".format(blocks[i].curr_id))
             ans_part1 += 1
         blocks[i].visible = True
 
-    print("top neighbours")
-    for b in blocks:
-        print("block {}".format(b.curr_id))
-        for x in b.top_neighbours:
-            print("---- {}".format(x.curr_id))
-
+    # print("top neighbours")
+    # for b in blocks:
+    #     print("block {}".format(b.curr_id))
+    #     for x in b.top_neighbours:
+    #         print("---- {}".format(x.curr_id))
 
     ans_part2 = 0
     for b in blocks:
-        print("-----------------> {}".format(b.curr_id))
         b.visible = False
         qq = deque()
         chain_reaction = 0
@@ -152,9 +126,7 @@ def count_blocks(data):
         while qq:
             curr = qq.popleft()
             h.remove(curr)
-            print("curr = {}".format(curr.curr_id))
             if curr.can_fall():
-                print(curr.curr_id)
                 curr.visible = False
                 chain_reaction += 1
                 for n in curr.top_neighbours:
@@ -164,7 +136,6 @@ def count_blocks(data):
                     h.add(n)
         for k in blocks:
             k.visible = True
-        print("b {} ans = {}".format(b.curr_id, chain_reaction))
         ans_part2 += chain_reaction
 
     return ans_part1, ans_part2
