@@ -16,6 +16,8 @@ class Block:
         self.cubes = []
         self.curr_id = curr_id
         self.visible = True
+        self.top_neighbours = set()
+        self.bottom_neighbours = set()
 
         if start[0] != end[0]:
             for i in range(start[0], end[0] + 1):
@@ -29,12 +31,10 @@ class Block:
 
         self.lowest_z = min(x[2] for x in self.cubes)
 
-    def can_fall(self, lower_blocks):
-        for other in lower_blocks:
-            if other.curr_id == self.curr_id:
-                continue
-            if other.visible:
-                if self.is_blocked_by(other):
+    def can_fall(self):
+        for ngh in self.bottom_neighbours:
+            if ngh.visible:
+                if self.is_blocked_by(ngh):
                     return False
         return all(x[2] != 1 for x in self.cubes)
 
@@ -78,28 +78,43 @@ def count_disintegrateable_blocks(data):
 
     for b in blocks:
         b.drop(blocks)
+    print("dropping done")
 
     print("----------------- output -----------------")
     for b in blocks:
         print("block {} = {}".format(b.curr_id, b.cubes))
 
-    print("-----------------------")
+
     ans = 0
 
     blocks.sort(key=lambda bl: bl.lowest_z)
+
+    print("-----------------------")
+    for b in blocks:
+        for bb in blocks:
+            if b is not bb:
+                if b.is_blocked_by(bb):
+                    b.bottom_neighbours.add(bb)
+                    bb.top_neighbours.add(b)
 
     for i in range(len(blocks)):
         blocks[i].visible = False
         print("trying {}".format(blocks[i].curr_id))
         disintegrateable = True
-        for j in range(i + 1, len(blocks)):
-            # if blocks[j].lowest_z > blocks[i].lowest_z + 4:
-            #     break
-            if blocks[i].curr_id == blocks[j].curr_id:
-                continue
-            if blocks[j].can_fall(blocks[0: j]):
+
+        for ngh in blocks[i].top_neighbours:
+            if ngh.can_fall():
                 disintegrateable = False
                 break
+
+        # for j in range(i + 1, len(blocks)):
+        #     # if blocks[j].lowest_z > blocks[i].lowest_z + 4:
+        #     #     break
+        #     if blocks[i].curr_id == blocks[j].curr_id:
+        #         continue
+        #     if blocks[j].can_fall(blocks[0: j]):
+        #         disintegrateable = False
+        #         break
 
         if disintegrateable:
             print("can be disintegrated {}".format(blocks[i].curr_id))
