@@ -1,5 +1,4 @@
 import day1
-import day16
 import day2
 import day3
 import day4
@@ -22,6 +21,7 @@ import day20
 import day21
 import day22
 import day23
+import day24
 
 import sys
 sys.setrecursionlimit(150000)
@@ -71,5 +71,6 @@ if __name__ == '__main__':
     # day21.day21_b()
     # day22.day22_a()
     # day22.day22_b()
-    day23.day23_a()
-    day23.day23_b()
+    # day23.day23_a()
+    # day23.day23_b()
+    day24.day24_a()

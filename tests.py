@@ -21,6 +21,7 @@ import day20
 import day21
 import day22
 import day23
+import day24
 
 import unittest
 from parameterized import parameterized
@@ -1129,7 +1130,24 @@ class Day23(unittest.TestCase):
              "#####################.#"
          ], 154),
         # ("day23_b",
-        #  day23.parse_day23_a(), 2438),
+        #  day23.parse_day23_a(), 6658),
     ])
     def test_longest_hike_v2(self, _, data, expected):
         self.assertEqual(expected, day23.longest_hike_v2(data))
+
+
+class Day23(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             [[19, 13, 30],  [-2, 1, -2]],
+             [[18, 19, 22],  [-1, -1, -2]],
+             [[20, 25, 34],  [-2, -2, -4]],
+             [[12, 31, 28],  [-1, -2, -1]],
+             [[20, 19, 15],  [1, -5, -3]]
+         ], 7, 27 + 1, 2),
+        # ("day24_a",
+        #  day24.parse_day24_a(), 200000000000000, 400000000000000 ),
+    ])
+    def test_count_intersections(self, _, data, lower_bound, upper_bound, expected):
+        self.assertEqual(expected, day24.count_intersections(data, lower_bound, upper_bound))
