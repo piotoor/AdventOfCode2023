@@ -25,37 +25,40 @@ def dfs(curr, target, neighbours, visited, curr_path, paths):
     # print(curr)
     if curr == target:
         # print(curr_path)
-        paths.add(tuple(curr_path))
+        # paths.add(tuple(curr_path))
+        paths.add(curr_path)
         # print()
-        return 1
+        return
     else:
-        ans = 0
         for x in neighbours[curr]:
             if x not in visited:
                 visited.add(x)
-                curr_path.append(x)
-                ans += dfs(x, target, neighbours, visited, curr_path, paths)
-                curr_path.pop()
+                # curr_path.append(x)
+                dfs(x, target, neighbours, visited, curr_path + 1, paths)
+                # curr_path.pop()
                 visited.remove(x)
 
-        return ans
+        return
 
 
-def compute_neighbours(data):
+def compute_neighbours(data, slopes_enabled):
     neighbours = {}
 
     for r in range(len(data)):
         for c in range(len(data[0])):
             curr = (r, c)
+            if data[r][c] == '#':
+                continue
             if curr not in neighbours:
                 neighbours[curr] = set()
-            if data[r][c] == ">":
+
+            if data[r][c] == ">" and slopes_enabled:
                 neighbours[curr].add((r, c + 1))
-            elif data[r][c] == "v":
+            elif data[r][c] == "v" and slopes_enabled:
                 neighbours[curr].add((r + 1, c))
-            elif data[r][c] == "<":  # can be deleted
+            elif data[r][c] == "<" and slopes_enabled:  # can be deleted
                 neighbours[curr].add((r, c - 1))
-            elif data[r][c] == "^":  # can be deleted
+            elif data[r][c] == "^" and slopes_enabled:  # can be deleted
                 neighbours[curr].add((r - 1, c))
             else:
                 for i in range(max(0, r - 1), min(r + 2, len(data))):
@@ -75,18 +78,72 @@ def longest_hike(data):
     source = (start_r, start_c)
     target = (target_r, target_c)
     
-    neighbours = compute_neighbours(data)
-    # for n in neighbours:
-    #     print(n, neighbours[n])
-    # return -1
-    visited = set()
-    curr_path = []
-    paths = set()
-    ans = dfs(source, target, neighbours, visited, curr_path, paths)
+    neighbours = compute_neighbours(data, True)
 
-    return max([len(p) for p in paths])
+    visited = set()
+    curr_path = 0
+    paths = set()
+    dfs(source, target, neighbours, visited, curr_path, paths)
+
+    return max(paths)
 
 
 def day23_a():
     data = parse_day23_a()
     print("day23_a = {}".format(longest_hike(data)))
+
+
+def longest_hike_v2(data):
+    start_r = 0
+    start_c = 1
+    target_r = len(data) - 1
+    target_c = len(data[0]) - 2
+    source = (start_r, start_c)
+    target = (target_r, target_c)
+
+    neighbours = compute_neighbours(data, False)
+    visited = set()
+    curr_path = 0
+    paths = set()
+    dfs(source, target, neighbours, visited, curr_path, paths)
+
+    return max(paths)
+
+    # visited = set()
+    # curr_path = 0
+    # paths = set()
+    # dfs(source, target, neighbours, visited, curr_path, paths)
+
+    # return max(paths)
+
+
+# def longest_hike_v2(data):
+#     start_r = 0
+#     start_c = 1
+#     target_r = len(data) - 1
+#     target_c = len(data[0]) - 2
+#     source = (start_r, start_c)
+#     target = (target_r, target_c)
+#
+#     neighbours = compute_neighbours(data)
+#
+#     cnt = 0
+#     for n in neighbours:
+#         if len(neighbours[n]) > 2:
+#             cnt += 1
+#             print(n)
+#     print("cnt = {}".format(cnt))
+#     return -1
+#
+#     # visited = set()
+#     # curr_path = 0
+#     # paths = set()
+#     # dfs(source, target, neighbours, visited, curr_path, paths)
+#
+#     # return max(paths)
+
+
+def day23_b():
+    data = parse_day23_a()
+    print("day23_b = {}".format(longest_hike_v2(data)))
+
