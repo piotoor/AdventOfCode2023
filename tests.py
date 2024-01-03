@@ -1136,7 +1136,7 @@ class Day23(unittest.TestCase):
         self.assertEqual(expected, day23.longest_hike_v2(data))
 
 
-class Day23(unittest.TestCase):
+class Day24(unittest.TestCase):
     @parameterized.expand([
         ("example 1",
          [
@@ -1146,8 +1146,24 @@ class Day23(unittest.TestCase):
              [[12, 31, 28],  [-1, -2, -1]],
              [[20, 19, 15],  [1, -5, -3]]
          ], 7, 27 + 1, 2),
-        # ("day24_a",
-        #  day24.parse_day24_a(), 200000000000000, 400000000000000 ),
+        ("day24_a",
+         day24.parse_day24_a(), 200000000000000, 400000000000000 + 1, 26657),
     ])
     def test_count_intersections(self, _, data, lower_bound, upper_bound, expected):
         self.assertEqual(expected, day24.count_intersections(data, lower_bound, upper_bound))
+
+
+    @parameterized.expand([
+        ("example 1",
+         [
+             [[19, 13, 30],  [-2, 1, -2]],
+             [[18, 19, 22],  [-1, -1, -2]],
+             [[20, 25, 34],  [-2, -2, -4]],
+             [[12, 31, 28],  [-1, -2, -1]],
+             [[20, 19, 15],  [1, -5, -3]]
+         ], 47),
+        ("day24_b",
+         day24.parse_day24_a(), 828418331313365)
+    ])
+    def test_intersect_with_rock(self, _, data, expected):
+        self.assertEqual(expected, day24.intersect_with_rock(data))

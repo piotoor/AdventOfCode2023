@@ -73,4 +73,5 @@ if __name__ == '__main__':
     # day22.day22_b()
     # day23.day23_a()
     # day23.day23_b()
-    day24.day24_a()
+    # day24.day24_a()
+    day24.day24_b()
