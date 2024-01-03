@@ -22,6 +22,7 @@ import day21
 import day22
 import day23
 import day24
+import day25
 
 import unittest
 from parameterized import parameterized
@@ -1152,7 +1153,6 @@ class Day24(unittest.TestCase):
     def test_count_intersections(self, _, data, lower_bound, upper_bound, expected):
         self.assertEqual(expected, day24.count_intersections(data, lower_bound, upper_bound))
 
-
     @parameterized.expand([
         ("example 1",
          [
@@ -1167,3 +1167,48 @@ class Day24(unittest.TestCase):
     ])
     def test_intersect_with_rock(self, _, data, expected):
         self.assertEqual(expected, day24.intersect_with_rock(data))
+
+
+class Day25(unittest.TestCase):
+    @parameterized.expand([
+        ("example 1",
+         [
+             ('jqt', 'rhn'),
+             ('jqt', 'xhk'),
+             ('jqt', 'nvd'),
+             ('rsh', 'frs'),
+             ('rsh', 'pzl'),
+             ('rsh', 'lsr'),
+             ('xhk', 'hfx'),
+             ('cmg', 'qnr'),
+             ('cmg', 'nvd'),
+             ('cmg', 'lhk'),
+             ('cmg', 'bvb'),
+             ('rhn', 'xhk'),
+             ('rhn', 'bvb'),
+             ('rhn', 'hfx'),
+             ('bvb', 'xhk'),
+             ('bvb', 'hfx'),
+             ('pzl', 'lsr'),
+             ('pzl', 'hfx'),
+             ('pzl', 'nvd'),
+             ('qnr', 'nvd'),
+             ('ntq', 'jqt'),
+             ('ntq', 'hfx'),
+             ('ntq', 'bvb'),
+             ('ntq', 'xhk'),
+             ('nvd', 'lhk'),
+             ('lsr', 'lhk'),
+             ('rzs', 'qnr'),
+             ('rzs', 'cmg'),
+             ('rzs', 'lsr'),
+             ('rzs', 'rsh'),
+             ('frs', 'qnr'),
+             ('frs', 'lhk'),
+             ('frs', 'lsr')
+         ], 54),
+        # ("day25_a",
+        #  day25.parse_day25_a(), )
+    ])
+    def test_multiple_size_of_groups(self, _, data, expected):
+        self.assertEqual(expected, day25.multiple_size_of_groups(data))
