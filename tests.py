@@ -1207,8 +1207,8 @@ class Day25(unittest.TestCase):
              ('frs', 'lhk'),
              ('frs', 'lsr')
          ], 54),
-        # ("day25_a",
-        #  day25.parse_day25_a(), )
+        ("day25_a",
+         day25.parse_day25_a(), 544523)
     ])
     def test_multiple_size_of_groups(self, _, data, expected):
         self.assertEqual(expected, day25.multiple_size_of_groups(data))
